@@ -1,6 +1,6 @@
 import { Webhook } from "svix";
 import { headers } from "next/headers";
-import connectDB from "@/lib/connectDB.js";
+import { connectDB } from "@/lib/connectDB.js";
 import User from "@/model/user.js";
 
 export async function POST(req) {

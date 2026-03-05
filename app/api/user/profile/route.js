@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth.js";
-import connectDB from "@/lib/connectDB.js";
+import { connectDB } from "../../../../lib/connectDB.js";
 import User from "@/model/user.js";
 import {
   calculateBMI,
@@ -8,7 +8,6 @@ import {
   calculateAge,
 } from "@/lib/healthCalculations.js";
 
-// GET /api/user/profile - Get current user profile
 export async function GET() {
   try {
     const user = await getCurrentUser();
