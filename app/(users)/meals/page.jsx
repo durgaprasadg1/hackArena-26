@@ -61,11 +61,14 @@ export default function MealLogPage() {
 
       <div className="grid gap-6 lg:grid-cols-[260px_1fr_320px]">
         {/* LEFT - Meal Selector */}
+        <div className="space-y-6">
         <MealSidebar
           selectedMeal={selectedMeal}
           setSelectedMeal={setSelectedMeal}
           mealCalories={mealCalories}
         />
+        <AiSuggestion />
+        </div>
 
         {/* CENTER - Meal Log */}
         <MealLog selectedMeal={selectedMeal} onMealUpdate={handleMealUpdate} />
@@ -84,7 +87,7 @@ export default function MealLogPage() {
               fat: 67,
             }}
           />
-          <AiSuggestion />
+          
         </div>
       </div>
     </div>

@@ -30,14 +30,7 @@ export default function MealSidebar({
         ))}
       </div>
 
-      {/* Hydration */}
-      <div className="bg-blue-50 border rounded-xl p-4">
-        <p className="font-medium text-blue-700">Hydration Goal</p>
-        <p className="text-sm text-gray-500">Track your water intake</p>
-        <div className="w-full h-2 bg-blue-100 rounded mt-3">
-          <div className="w-0 h-2 bg-blue-500 rounded" />
-        </div>
-      </div>
+      
     </div>
   );
 }

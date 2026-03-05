@@ -2,11 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useClerk } from "@clerk/nextjs";
 import {
   UtensilsCrossed,
   Dumbbell,
   LayoutDashboard,
   ShieldCheck,
+  LogOut,
 } from "lucide-react";
 
 const navItems = [
@@ -30,6 +32,7 @@ const navItems = [
 
 export default function AdminLayout({ children }) {
   const pathname = usePathname();
+  const { signOut } = useClerk();
 
   return (
     <div className="min-h-screen bg-gray-50 flex">
@@ -76,13 +79,14 @@ export default function AdminLayout({ children }) {
         </nav>
 
         {/* Footer */}
-        <div className="px-5 py-4 border-t border-gray-100">
-          <Link
-            href="/dashboard"
-            className="text-xs text-gray-400 hover:text-emerald-700 transition-colors"
+        <div className="px-5 py-4 border-t border-gray-100 space-y-2">
+          <button
+            onClick={() => signOut({ redirectUrl: "/sign-in" })}
+            className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-red-600 hover:bg-red-50 transition-colors"
           >
-            ← Back to App
-          </Link>
+            <LogOut className="h-4 w-4 shrink-0" />
+            Logout
+          </button>
         </div>
       </aside>
 

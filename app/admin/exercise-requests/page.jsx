@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 import { DataTable } from "../../components/History/Table";
 import { getExerciseRequestColumns } from "../../components/Admin/ExerciseRequestColumns";
 import { toast } from "sonner";
-import { ShieldCheck, Dumbbell } from "lucide-react";
+import { ShieldCheck, Dumbbell, Loader, Loader2 } from "lucide-react";
 
 export default function AdminExerciseRequestsPage() {
   const [data, setData] = useState([]);
@@ -81,7 +81,7 @@ export default function AdminExerciseRequestsPage() {
         {/* Content */}
         {loading ? (
           <div className="flex justify-center items-center py-24 text-gray-400">
-            Loading pending exercise requests…
+             <Loader2 size={30} className="animate-spin"/>
           </div>
         ) : data.length === 0 ? (
           <div className="text-center py-20 bg-white border border-dashed border-gray-200 rounded-2xl">

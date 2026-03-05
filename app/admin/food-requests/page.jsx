@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 import { DataTable } from "../../components/History/Table";
 import { getFoodRequestColumns } from "../../components/Admin/FoodRequestColumns";
 import { toast } from "sonner";
-import { ShieldCheck, UtensilsCrossed } from "lucide-react";
+import { Loader, Loader2, ShieldCheck, UtensilsCrossed } from "lucide-react";
 
 export default function AdminFoodRequestsPage() {
   const [data, setData] = useState([]);
@@ -80,7 +80,7 @@ export default function AdminFoodRequestsPage() {
         {/* Content */}
         {loading ? (
           <div className="flex justify-center items-center py-24 text-gray-400">
-            Loading pending food requests…
+           <Loader2 size={30} className="animate-spin"/>
           </div>
         ) : data.length === 0 ? (
           <div className="text-center py-20 bg-white border border-dashed border-gray-200 rounded-2xl">
