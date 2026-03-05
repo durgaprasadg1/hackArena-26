@@ -32,7 +32,9 @@ export default function AuthRedirectPage() {
     // Regular user: verify onboarding status from DB
     redirected.current = true;
     fetch("/api/user/profile")
-      .then((res) => res.json())
+      .then((res) =>
+        res.ok ? res.json() : Promise.reject(new Error(res.status)),
+      )
       .then((data) => {
         const effectiveRole = data?.user?.role || clerkRole;
         if (effectiveRole === "admin") {

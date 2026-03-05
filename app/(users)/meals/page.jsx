@@ -24,6 +24,10 @@ export default function MealLogPage() {
   const fetchUserProfile = async () => {
     try {
       const response = await fetch("/api/user/profile");
+      if (!response.ok) {
+        console.warn("Profile fetch returned", response.status);
+        return;
+      }
       const data = await response.json();
       if (data.success) {
         setUserProfile(data.user);
@@ -62,12 +66,12 @@ export default function MealLogPage() {
       <div className="grid gap-6 lg:grid-cols-[260px_1fr_320px]">
         {/* LEFT - Meal Selector */}
         <div className="space-y-6">
-        <MealSidebar
-          selectedMeal={selectedMeal}
-          setSelectedMeal={setSelectedMeal}
-          mealCalories={mealCalories}
-        />
-        <AiSuggestion />
+          <MealSidebar
+            selectedMeal={selectedMeal}
+            setSelectedMeal={setSelectedMeal}
+            mealCalories={mealCalories}
+          />
+          <AiSuggestion />
         </div>
 
         {/* CENTER - Meal Log */}
@@ -87,7 +91,6 @@ export default function MealLogPage() {
               fat: 67,
             }}
           />
-          
         </div>
       </div>
     </div>

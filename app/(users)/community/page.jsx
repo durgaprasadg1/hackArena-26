@@ -39,6 +39,7 @@ export default function CommunityPage() {
   const fetchCurrentUserId = async () => {
     try {
       const res = await fetch("/api/user/profile");
+      if (!res.ok) return;
       const data = await res.json();
       if (data.success) setCurrentUserId(String(data.user.id));
     } catch {}
