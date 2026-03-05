@@ -9,10 +9,7 @@ export default function HeroSection() {
       {/* LEFT CONTENT */}
       <div className="space-y-6">
 
-        <p className="text-sm text-green-600 tracking-wide uppercase">
-          Precision Nutrition
-        </p>
-
+       
         <h1 className="text-4xl md:text-6xl font-bold leading-tight">
           NutriSync <span className="text-green-700 italic">AI</span>
         </h1>
@@ -55,7 +52,6 @@ export default function HeroSection() {
             <img className="w-7 h-7 rounded-full border" src="/user3.jpg" />
           </div> */}
 
-          <span>10k+ active users</span>
 
         </div>
 
