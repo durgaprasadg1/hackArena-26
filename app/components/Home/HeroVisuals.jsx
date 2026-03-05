@@ -27,6 +27,7 @@ export default function HeroVisual() {
 
       <img
         src="/food1.jpeg"
+        alt="Healthy food bowl"
         className="absolute -bottom-10 left-5 w-20 h-20 rounded-full shadow-lg"
       />
 
