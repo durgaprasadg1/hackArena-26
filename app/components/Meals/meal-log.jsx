@@ -13,6 +13,7 @@ export default function MealLog({ selectedMeal, onMealUpdate }) {
   const [searchResults, setSearchResults] = useState([]);
   const [mealEntries, setMealEntries] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [entriesLoading, setEntriesLoading] = useState(true);
   const [selectedFood, setSelectedFood] = useState(null);
   const [nutrientDialogOpen, setNutrientDialogOpen] = useState(false);
   const [foodRequestOpen, setFoodRequestOpen] = useState(false);
@@ -37,6 +38,7 @@ export default function MealLog({ selectedMeal, onMealUpdate }) {
   }, [searchQuery]);
 
   const fetchMealEntries = async () => {
+    setEntriesLoading(true);
     try {
       const response = await fetch("/api/meals/log");
       const data = await response.json();
@@ -47,6 +49,8 @@ export default function MealLog({ selectedMeal, onMealUpdate }) {
       }
     } catch (error) {
       console.error("Fetch meal entries error:", error);
+    } finally {
+      setEntriesLoading(false);
     }
   };
 
@@ -204,7 +208,26 @@ export default function MealLog({ selectedMeal, onMealUpdate }) {
       {/* Current Meal Entries */}
       <h2 className="font-semibold mb-4 capitalize">{selectedMeal} Log</h2>
 
-      {mealEntries.length === 0 ? (
+      {entriesLoading ? (
+        <div className="space-y-3">
+          {[1, 2, 3].map((i) => (
+            <div
+              key={i}
+              className="flex items-center gap-3 p-4 border rounded-lg animate-pulse"
+            >
+              <div className="w-12 h-12 rounded bg-gray-200 shrink-0" />
+              <div className="flex-1 space-y-2">
+                <div className="h-3.5 w-2/5 bg-gray-200 rounded" />
+                <div className="h-3 w-3/5 bg-gray-100 rounded" />
+              </div>
+              <div className="flex gap-2">
+                <div className="w-8 h-8 bg-gray-100 rounded" />
+                <div className="w-8 h-8 bg-gray-100 rounded" />
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : mealEntries.length === 0 ? (
         <div className="text-center py-8 text-gray-400">
           No items added yet. Search and add foods above.
         </div>
