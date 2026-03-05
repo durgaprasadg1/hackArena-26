@@ -54,6 +54,7 @@ const MealLogSchema = new mongoose.Schema(
 
 MealLogSchema.index({ userId: 1, date: 1 });
 
-const MealLog = mongoose.model("MealLog", MealLogSchema);
+const MealLog =
+  mongoose.models.MealLog || mongoose.model("MealLog", MealLogSchema);
 
 export default MealLog;

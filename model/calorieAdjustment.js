@@ -27,9 +27,8 @@ CalorieAdjustmentSchema.index({ userId: 1 });
 CalorieAdjustmentSchema.index({ referenceDate: 1 });
 CalorieAdjustmentSchema.index({ userId: 1, referenceDate: 1 });
 
-const CalorieAdjustment = mongoose.model(
-  "CalorieAdjustment",
-  CalorieAdjustmentSchema,
-);
+const CalorieAdjustment =
+  mongoose.models.CalorieAdjustment ||
+  mongoose.model("CalorieAdjustment", CalorieAdjustmentSchema);
 
 export default CalorieAdjustment;

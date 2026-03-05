@@ -165,6 +165,6 @@ UserSchema.index({ clerkId: 1 });
 UserSchema.index({ onboarded: 1 });
 UserSchema.index({ lastActive: -1 });
 
-const User = mongoose.model("User", UserSchema);
+const User = mongoose.models.User || mongoose.model("User", UserSchema);
 
 export default User;

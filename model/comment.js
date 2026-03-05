@@ -27,6 +27,7 @@ const CommentSchema = new mongoose.Schema(
 CommentSchema.index({ userId: 1 });
 CommentSchema.index({ parentCommentId: 1 });
 
-const Comment = mongoose.model("Comment", CommentSchema);
+const Comment =
+  mongoose.models.Comment || mongoose.model("Comment", CommentSchema);
 
 export default Comment;

@@ -42,12 +42,13 @@ const ExerciseSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-  // Additional indexes for common filters
-  ExerciseSchema.index({ type: 1 });
-  ExerciseSchema.index({ difficulty: 1 });
-  ExerciseSchema.index({ muscleGroups: 1 });
-  ExerciseSchema.index({ addedBy: 1 });
+// Additional indexes for common filters
+ExerciseSchema.index({ type: 1 });
+ExerciseSchema.index({ difficulty: 1 });
+ExerciseSchema.index({ muscleGroups: 1 });
+ExerciseSchema.index({ addedBy: 1 });
 
-  const Exercise = mongoose.model("Exercise", ExerciseSchema);
+const Exercise =
+  mongoose.models.Exercise || mongoose.model("Exercise", ExerciseSchema);
 
 export default Exercise;

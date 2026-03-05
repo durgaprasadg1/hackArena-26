@@ -73,6 +73,6 @@ FoodSchema.index({ createdBy: 1 });
 FoodSchema.index({ "verification.approvedBy": 1 });
 FoodSchema.index({ "verification.verified": 1 });
 
-const Food = mongoose.model("Food", FoodSchema);
+const Food = mongoose.models.Food || mongoose.model("Food", FoodSchema);
 
 export default Food;
