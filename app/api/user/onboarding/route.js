@@ -6,6 +6,7 @@ import {
   calculateBMR,
   calculateTDEE,
   calculateCalorieTarget,
+  calculateCalorieBurnTarget,
   calculateWaterIntake,
   calculateAge,
   validateHealthMetrics,
@@ -32,6 +33,12 @@ export async function POST(req) {
       waterIntakeLiters,
       goalType,
       targetWeight,
+      workCategory,
+      sittingHours,
+      postureIssues,
+      healthConditions,
+      allergies,
+      otherAllergy,
     } = body;
 
     // Validate required fields
@@ -68,7 +75,14 @@ export async function POST(req) {
     const bmr = calculateBMR(weightKg, heightCm, age, gender);
     const tdee = calculateTDEE(bmr, activityLevel);
     const dailyCalorieTarget = calculateCalorieTarget(tdee, goalType);
+    const dailyCalorieBurnTarget = calculateCalorieBurnTarget(goalType);
     const recommendedWater = calculateWaterIntake(weightKg, activityLevel);
+
+    // Build combined allergies list
+    const allAllergies = [...(allergies || [])];
+    if (otherAllergy && otherAllergy.trim()) {
+      allAllergies.push(otherAllergy.trim());
+    }
 
     // Update user with onboarding data
     user.roleType = roleType;
@@ -78,7 +92,12 @@ export async function POST(req) {
       heightCm,
       weightKg,
       activityLevel,
+      workCategory: workCategory || null,
+      sittingHours: sittingHours || null,
+      postureIssues: postureIssues || [],
     };
+
+    user.healthConditions = healthConditions || [];
 
     user.healthMetrics = {
       bmi,
@@ -94,7 +113,12 @@ export async function POST(req) {
       goalType,
       targetWeight: targetWeight || weightKg,
       dailyCalorieTarget,
+      dailyCalorieBurnTarget,
     };
+
+    // Store allergies in preferences
+    if (!user.preferences) user.preferences = {};
+    user.preferences.allergies = allAllergies;
 
     user.onboarded = true;
 
@@ -113,6 +137,7 @@ export async function POST(req) {
         goals: user.goals,
         recommendations: {
           dailyCalories: dailyCalorieTarget,
+          dailyCalorieBurn: dailyCalorieBurnTarget,
           dailyWater: recommendedWater,
           bmi,
           bmiCategory:

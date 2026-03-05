@@ -137,7 +137,7 @@ export default function ExerciseRequestDialog({ open, onClose, onSuccess }) {
                 name="type"
                 value={formData.type}
                 onChange={handleChange}
-                className="w-full border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+                className="w-full border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
               >
                 {TYPES.map((t) => (
                   <option key={t} value={t} className="capitalize">
@@ -152,7 +152,7 @@ export default function ExerciseRequestDialog({ open, onClose, onSuccess }) {
                 name="difficulty"
                 value={formData.difficulty}
                 onChange={handleChange}
-                className="w-full border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+                className="w-full border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
               >
                 {DIFFICULTIES.map((d) => (
                   <option key={d} value={d} className="capitalize">
@@ -206,8 +206,8 @@ export default function ExerciseRequestDialog({ open, onClose, onSuccess }) {
                   onClick={() => toggleMuscle(m)}
                   className={`px-3 py-1 rounded-full text-xs border transition-colors capitalize ${
                     formData.muscleGroups.includes(m)
-                      ? "bg-orange-500 text-white border-orange-500"
-                      : "bg-white text-gray-600 border-gray-200 hover:border-orange-300"
+                      ? "bg-emerald-600 text-white border-emerald-600"
+                      : "bg-white text-gray-600 border-gray-200 hover:border-emerald-300"
                   }`}
                 >
                   {m}
@@ -245,7 +245,7 @@ export default function ExerciseRequestDialog({ open, onClose, onSuccess }) {
             <Button
               type="submit"
               disabled={loading}
-              className="flex-1 bg-orange-500 hover:bg-orange-600 text-white"
+              className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white"
             >
               {loading ? "Submitting..." : "Submit Request"}
             </Button>

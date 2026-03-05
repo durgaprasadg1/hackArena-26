@@ -79,9 +79,9 @@ export default function MealLogPage() {
           <MacrosCard
             totals={mealData?.totals}
             userGoals={{
-              protein: 150,
-              carbs: 250,
-              fat: 65,
+              protein: 65,
+              carbs: 310,
+              fat: 67,
             }}
           />
           <AiSuggestion />

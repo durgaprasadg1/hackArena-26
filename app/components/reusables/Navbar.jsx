@@ -10,6 +10,10 @@ const Navbar = () => {
   const pathname = usePathname();
   const { isSignedIn, isLoaded } = useUser();
 
+  // Hide Navbar on onboarding and admin routes
+  if (pathname.startsWith("/onboarding")) return null;
+  if (pathname.startsWith("/admin")) return null;
+
   const navItem = (href, label) => {
     const isActive = pathname === href;
 

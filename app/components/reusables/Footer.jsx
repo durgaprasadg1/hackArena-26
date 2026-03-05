@@ -4,8 +4,13 @@ import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Github, Twitter, Linkedin, Instagram } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 export default function Footer() {
+  const pathname = usePathname();
+
+  // Hide Footer on onboarding flow
+  if (pathname.startsWith("/onboarding")) return null;
 
   return (
     <footer className="border-t bg-white mt-20">

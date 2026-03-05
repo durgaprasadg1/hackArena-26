@@ -42,10 +42,8 @@ const FILTER_TYPES = [
 ];
 const FILTER_DIFFICULTIES = ["all", "beginner", "intermediate", "advanced"];
 
-export default function ExerciseLog({ onLogUpdate }) {
+export default function ExerciseLog({ onLogUpdate, filterType = "all", filterDifficulty = "all" }) {
   const [searchQuery, setSearchQuery] = useState("");
-  const [filterType, setFilterType] = useState("all");
-  const [filterDifficulty, setFilterDifficulty] = useState("all");
   const [searchResults, setSearchResults] = useState([]);
   const [logs, setLogs] = useState([]);
   const [searching, setSearching] = useState(false);
@@ -171,13 +169,13 @@ export default function ExerciseLog({ onLogUpdate }) {
           size="sm"
           variant="outline"
           onClick={() => setRequestOpen(true)}
-          className="text-orange-600 border-orange-300 hover:bg-orange-50 text-xs"
+          className="text-emerald-600 border-emerald-300 hover:bg-emerald-50 text-xs"
         >
           <PlusCircle className="w-3.5 h-3.5 mr-1" /> Request New
         </Button>
       </div>
 
-      {/* Search + Filters */}
+      {/* Search */}
       <div className="space-y-2">
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -187,38 +185,6 @@ export default function ExerciseLog({ onLogUpdate }) {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
-        </div>
-
-        <div className="flex gap-2 flex-wrap">
-          {FILTER_TYPES.map((t) => (
-            <button
-              key={t}
-              onClick={() => setFilterType(t)}
-              className={`px-3 py-1 text-xs rounded-full border capitalize transition-colors ${
-                filterType === t
-                  ? "bg-orange-500 text-white border-orange-500"
-                  : "bg-white text-gray-600 border-gray-200 hover:border-orange-300"
-              }`}
-            >
-              {t}
-            </button>
-          ))}
-        </div>
-
-        <div className="flex gap-2 flex-wrap">
-          {FILTER_DIFFICULTIES.map((d) => (
-            <button
-              key={d}
-              onClick={() => setFilterDifficulty(d)}
-              className={`px-3 py-1 text-xs rounded-full border capitalize transition-colors ${
-                filterDifficulty === d
-                  ? "bg-gray-700 text-white border-gray-700"
-                  : "bg-white text-gray-600 border-gray-200 hover:border-gray-400"
-              }`}
-            >
-              {d}
-            </button>
-          ))}
         </div>
       </div>
 
@@ -237,7 +203,7 @@ export default function ExerciseLog({ onLogUpdate }) {
               <div className="px-4 py-4 text-center text-gray-500 text-sm">
                 No exercises found.{" "}
                 <button
-                  className="text-orange-500 underline"
+                  className="text-emerald-600 underline"
                   onClick={() => setRequestOpen(true)}
                 >
                   Request a new exercise
@@ -249,7 +215,7 @@ export default function ExerciseLog({ onLogUpdate }) {
             <div
               key={ex._id}
               className={`flex items-center justify-between px-4 py-3 border-b last:border-none hover:bg-gray-50 transition-colors cursor-pointer ${
-                pendingExercise?._id === ex._id ? "bg-orange-50" : ""
+                pendingExercise?._id === ex._id ? "bg-emerald-50" : ""
               }`}
               onClick={() => handleSelectExercise(ex)}
             >
@@ -275,7 +241,7 @@ export default function ExerciseLog({ onLogUpdate }) {
                     ` · ${ex.muscleGroups.slice(0, 2).join(", ")}`}
                 </p>
               </div>
-              <Plus className="w-5 h-5 text-orange-500 shrink-0" />
+              <Plus className="w-5 h-5 text-emerald-600 shrink-0" />
             </div>
           ))}
         </div>
@@ -283,7 +249,7 @@ export default function ExerciseLog({ onLogUpdate }) {
 
       {/* Pending add panel */}
       {pendingExercise && (
-        <div className="border border-orange-200 bg-orange-50 rounded-xl p-4 space-y-3">
+        <div className="border border-emerald-200 bg-emerald-50 rounded-xl p-4 space-y-3">
           <div className="flex items-center justify-between">
             <p className="font-medium text-sm">{pendingExercise.name}</p>
             <button
@@ -325,7 +291,7 @@ export default function ExerciseLog({ onLogUpdate }) {
           )}
 
           <div className="flex items-center justify-between text-sm">
-            <span className="text-orange-700 flex items-center gap-1">
+            <span className="text-emerald-700 flex items-center gap-1">
               <Flame className="w-3.5 h-3.5" /> Est. burn:
               <strong className="ml-1">{previewCalories} kcal</strong>
             </span>
@@ -333,7 +299,7 @@ export default function ExerciseLog({ onLogUpdate }) {
               size="sm"
               onClick={handleAddLog}
               disabled={adding}
-              className="bg-orange-500 hover:bg-orange-600 text-white"
+              className="bg-emerald-600 hover:bg-emerald-700 text-white"
             >
               {adding ? (
                 <Loader2 className="w-4 h-4 animate-spin" />
@@ -375,7 +341,7 @@ export default function ExerciseLog({ onLogUpdate }) {
                       ? `${log.durationMinutes} min`
                       : `${log.sets} sets`}
                     {" · "}
-                    <span className="text-orange-500 font-medium">
+                    <span className="text-emerald-600 font-medium">
                       {log.caloriesBurned} kcal burned
                     </span>
                     {log.notes && ` · ${log.notes}`}

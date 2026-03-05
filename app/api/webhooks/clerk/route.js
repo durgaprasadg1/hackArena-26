@@ -47,17 +47,26 @@ export async function POST(req) {
   const eventType = evt.type;
 
   if (eventType === "user.created") {
-    const { id, email_addresses, first_name, last_name, image_url } = evt.data;
+    const { id, email_addresses, first_name, last_name, image_url, public_metadata } = evt.data;
 
     try {
-      // Create new user in MongoDB
+      // If the user was pre-created by the admin endpoint, skip creation to avoid duplicates
+      const existing = await User.findOne({ clerkId: id });
+      if (existing) {
+        console.log("User already exists in MongoDB (created by admin endpoint):", existing._id);
+        return Response.json({ message: "User already exists", userId: existing._id }, { status: 200 });
+      }
+
+      // Respect role set in Clerk publicMetadata (e.g. "admin"), default to "user"
+      const role = public_metadata?.role === "admin" ? "admin" : "user";
+
       const newUser = await User.create({
         clerkId: id,
         email: email_addresses[0]?.email_address,
         name: `${first_name || ""} ${last_name || ""}`.trim() || "User",
         profilePicture: image_url,
-        onboarded: false,
-        role: "user",
+        onboarded: role === "admin", // admins skip onboarding
+        role,
       });
 
       console.log("User created in MongoDB:", newUser._id);

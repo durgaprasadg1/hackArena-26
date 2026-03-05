@@ -95,7 +95,7 @@ export default function ExerciseLogDialog({ open, onClose, log, onSuccess }) {
             />
           </div>
 
-          <div className="bg-orange-50 border border-orange-200 rounded-lg p-3 text-sm text-orange-700 flex justify-between">
+          <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-3 text-sm text-emerald-700 flex justify-between">
             <span>Estimated calories burned:</span>
             <span className="font-bold">{estimatedCalories} kcal</span>
           </div>
@@ -107,7 +107,7 @@ export default function ExerciseLogDialog({ open, onClose, log, onSuccess }) {
             <Button
               onClick={handleSave}
               disabled={loading}
-              className="flex-1 bg-orange-500 hover:bg-orange-600 text-white"
+              className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white"
             >
               {loading ? "Saving..." : "Save Changes"}
             </Button>

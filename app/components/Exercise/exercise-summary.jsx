@@ -11,18 +11,18 @@ export default function ExerciseSummary({ totals, calorieGoal = 500 }) {
   return (
     <div className="bg-white border rounded-xl p-6">
       <h3 className="font-semibold mb-4 flex items-center gap-2">
-        <Flame className="w-4 h-4 text-orange-500" /> Daily Summary
+        <Flame className="w-4 h-4 text-emerald-500" /> Daily Summary
       </h3>
 
       <div className="text-center mb-4">
-        <div className="text-3xl font-bold text-orange-500">
+        <div className="text-3xl font-bold text-emerald-600">
           {burned.toLocaleString()}
         </div>
         <p className="text-gray-500 text-sm">KCAL BURNED</p>
         <div className="mt-3">
           <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
             <div
-              className={`h-full rounded-full transition-all ${percent >= 100 ? "bg-green-500" : "bg-orange-400"}`}
+              className={`h-full rounded-full transition-all ${percent >= 100 ? "bg-emerald-600" : "bg-emerald-400"}`}
               style={{ width: `${percent}%` }}
             />
           </div>
@@ -38,7 +38,7 @@ export default function ExerciseSummary({ totals, calorieGoal = 500 }) {
         <div className="border rounded-lg p-3 text-center">
           <p className="text-xs text-gray-500">Remaining</p>
           <p
-            className={`font-semibold ${percent >= 100 ? "text-green-600" : "text-orange-500"}`}
+            className={`font-semibold ${percent >= 100 ? "text-emerald-700" : "text-emerald-600"}`}
           >
             {Math.max(0, calorieGoal - burned).toLocaleString()}
           </p>

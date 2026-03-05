@@ -29,7 +29,7 @@ export default function ExerciseStatsCard({ logs }) {
   return (
     <div className="bg-white border rounded-xl p-6">
       <h3 className="font-semibold mb-4 flex items-center gap-2">
-        <Activity className="w-4 h-4 text-blue-500" /> Workout Breakdown
+        <Activity className="w-4 h-4 text-emerald-600" /> Workout Breakdown
       </h3>
 
       {logs.length === 0 ? (
@@ -48,7 +48,7 @@ export default function ExerciseStatsCard({ logs }) {
                 </div>
                 <div className="h-2 bg-gray-100 rounded">
                   <div
-                    className="h-2 rounded bg-orange-400"
+                    className="h-2 rounded bg-emerald-500"
                     style={{ width: `${pct}%` }}
                   />
                 </div>
@@ -60,7 +60,7 @@ export default function ExerciseStatsCard({ logs }) {
 
       <div className="mt-4 pt-4 border-t">
         <div className="flex items-center gap-2 text-sm text-gray-500">
-          <Zap className="w-4 h-4 text-yellow-500" />
+          <Zap className="w-4 h-4 text-emerald-500" />
           <span>
             Total: <strong className="text-gray-800">{total} kcal</strong>{" "}
             burned today

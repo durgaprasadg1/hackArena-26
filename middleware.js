@@ -1,4 +1,4 @@
-import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import { clerkMiddleware, clerkClient, createRouteMatcher } from "@clerk/nextjs/server";
 
 // Define public routes that don't require authentication
 const isPublicRoute = createRouteMatcher([
@@ -7,10 +7,25 @@ const isPublicRoute = createRouteMatcher([
   "/sign-up(.*)",
   "/api/webhooks(.*)",
   "/api/auth(.*)",
+  "/api/admin/create",
+  "/auth-redirect",
 ]);
 
-// Define admin routes
-const isAdminRoute = createRouteMatcher(["/admin(.*)", "/api/admin(.*)"]);
+// Define admin routes (only accessible by admins)
+const isAdminRoute = createRouteMatcher(["/admin(.*)"]);
+
+// Define admin API routes (only accessible by admins)
+const isAdminApiRoute = createRouteMatcher(["/api/admin(.*)"]);
+
+// Define user-only routes (not accessible by admins)
+const isUserRoute = createRouteMatcher([
+  "/dashboard(.*)",
+  "/meals(.*)",
+  "/exercises(.*)",
+  "/history(.*)",
+  "/community(.*)",
+  "/profile(.*)",
+]);
 
 export default clerkMiddleware(async (auth, request) => {
   const { userId, sessionClaims } = await auth();
@@ -25,12 +40,30 @@ export default clerkMiddleware(async (auth, request) => {
     return await auth.protect();
   }
 
-  // Admin routes require admin role
-  if (isAdminRoute(request)) {
-    const userRole = sessionClaims?.metadata?.role;
+  // Try JWT claims first; fall back to Clerk backend API when JWT template
+  // is not configured to include publicMetadata (avoids needing dashboard setup)
+  let userRole = sessionClaims?.metadata?.role;
+  if (!userRole) {
+    try {
+      const clerk = await clerkClient();
+      const clerkUser = await clerk.users.getUser(userId);
+      userRole = clerkUser.publicMetadata?.role;
+    } catch {
+      // If Clerk API call fails, proceed without role (treated as regular user)
+    }
+  }
 
+  // Admin routes: only admins allowed, redirect users to /dashboard
+  if (isAdminRoute(request) || isAdminApiRoute(request)) {
     if (userRole !== "admin") {
       return Response.redirect(new URL("/dashboard", request.url));
+    }
+  }
+
+  // User routes: admins are not allowed here, redirect them to /admin
+  if (isUserRoute(request)) {
+    if (userRole === "admin") {
+      return Response.redirect(new URL("/admin", request.url));
     }
   }
 });

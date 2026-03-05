@@ -63,7 +63,26 @@ const UserSchema = new mongoose.Schema(
         type: String,
         enum: ["sedentary", "light", "moderate", "active"],
       },
+
+      workCategory: {
+        type: String,
+        enum: [
+          "desk",
+          "field",
+          "physical",
+          "wfh",
+          "student_work",
+          "standing",
+          "driving",
+        ],
+      },
+
+      sittingHours: Number,
+
+      postureIssues: [{ type: String }],
     },
+
+    healthConditions: [{ type: String }],
 
     healthMetrics: {
       bmi: Number,
@@ -84,6 +103,8 @@ const UserSchema = new mongoose.Schema(
       targetWeight: Number,
 
       dailyCalorieTarget: Number,
+
+      dailyCalorieBurnTarget: Number,
     },
 
     // User Preferences
