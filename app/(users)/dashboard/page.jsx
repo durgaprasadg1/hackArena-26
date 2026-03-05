@@ -1,17 +1,16 @@
+"use client";
+
 import React from "react";
-import Navbar from "./components/Navbar";
-import MacroCard from "./components/Dashboard/MacroCard";
-import QuickLog from "./components/Dashboard/QuickLog";
-import ActivityTimeline from "./components/Dashboard/ActivityTimeline";
-import AIInsights from "./components/Dashboard/AIInsights";
-import SuggestedMeal from "./components/Dashboard/SuggestedMeal";
+import MacroCard from "../../components/Dashboard/MacroCard";
+import QuickLog from "../../components/Dashboard/QuickLog";
+import ActivityTimeline from "../../components/Dashboard/ActivityTimeline";
+import AIInsights from "../../components/Dashboard/AIInsights";
+import SuggestedMeal from "../../components/Dashboard/SuggestedMeal";
 import { motion } from "framer-motion";
 
 export default function App() {
   return (
     <div className="min-h-screen bg-[#F8FAF5] font-sans text-gray-900">
-      <Navbar />
-
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         {/* Header Section */}
         <motion.div
@@ -31,7 +30,6 @@ export default function App() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* Main Content Column */}
           <div className="lg:col-span-8 space-y-8">
-
             {/* Macros Grid */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}

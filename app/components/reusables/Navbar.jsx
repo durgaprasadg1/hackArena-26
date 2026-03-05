@@ -1,6 +1,6 @@
 import React from 'react';
-import { Bell } from 'lucide-react';
-
+import { Bell, } from 'lucide-react';
+import Link from 'next/link';
 const Navbar = () => {
   return (
     <nav className="bg-white border-b border-gray-100 sticky top-0 z-50">
@@ -11,18 +11,22 @@ const Navbar = () => {
               <span className="text-xl font-bold text-[#556B2F]">NutriSync AI</span>
             </div>
             <div className="hidden sm:flex sm:space-x-8">
-              <a href="#" className="border-[#556B2F] text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+              <Link href="/dashboard" className="border-[#556B2F] text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
                 Dashboard
-              </a>
-              <a href="#" className="border-transparent text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+              </Link>
+              <Link href="/meals" className="border-transparent text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
                 Meal Log
-              </a>
-              <a href="#" className="border-transparent text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+              </Link>
+              <Link href="/exercise" className="border-transparent text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
                 Exercise
-              </a>
-              <a href="#" className="border-transparent text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+              </Link>
+              <Link href="/history" className="border-transparent text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
                 History
-              </a>
+              </Link>
+              <Link href="/add-experiences" className="border-[#556B2F] text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                Experiences
+              </Link>
+              
             </div>
           </div>
           <div className="flex items-center gap-4">

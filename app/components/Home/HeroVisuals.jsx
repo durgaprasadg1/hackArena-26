@@ -25,12 +25,12 @@ export default function HeroVisual() {
 
       {/* Floating images */}
 
-      {/* <img
-        src="/salad.jpg"
+      <img
+        src="/food1.jpeg"
         className="absolute -bottom-10 left-5 w-20 h-20 rounded-full shadow-lg"
       />
 
-      <img
+      {/* <img
         src="/snack.jpg"
         className="absolute top-10 -right-5 w-16 h-16 rounded-full shadow-lg"
       /> */}
