@@ -36,18 +36,21 @@ const Navbar = () => {
               <div className="w-8 h-8 bg-[#10B981] rounded-full flex items-center justify-center">
                 <span className="text-white font-bold text-lg">N</span>
               </div>
+              <Link href="/" className="hidden sm:inline-flex items-center gap-2">
               <span className="text-xl font-bold text-gray-900">
                 NutriSync AI
               </span>
+              </Link>
+              
             </div>
 
             {/* Navigation */}
             <div className="hidden md:flex md:space-x-8">
               {navItem("/dashboard", "Dashboard")}
               {navItem("/meals", "Meal")}
-              {navItem("/exercise", "Exercise")}
+              {navItem("/exercises", "Exercise")}
               {navItem("/community", "Community")}
-              {navItem("/reports", "Reports")}
+              {navItem("/history", "History")}
             </div>
           </div>
 

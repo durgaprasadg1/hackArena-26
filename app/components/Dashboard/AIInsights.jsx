@@ -3,7 +3,7 @@ import { Lightbulb } from 'lucide-react';
 
 const AIInsights = () => {
   return (
-    <div className="bg-[#F1F4EA] rounded-2xl p-6 border border-[#556B2F]/10">
+    <div className="bg-[#cff1cf] rounded-2xl p-6 border border-[#556B2F]/10">
       <div className="flex items-center gap-2 mb-4">
         <Lightbulb className="w-5 h-5 text-[#556B2F]" />
         <h2 className="text-lg font-bold text-gray-900">AI Insights</h2>

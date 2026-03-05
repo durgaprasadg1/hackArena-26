@@ -8,10 +8,10 @@ export default function HeroVisual() {
       {/* Main Circle */}
       <div className="relative w-[260px] h-[260px] md:w-[360px] md:h-[360px] rounded-full overflow-hidden shadow-xl">
 
-        {/* <img
-          src="/food-bowl.jpg"
+        <img
+          src="/food2.jpeg"
           className="object-cover w-full h-full"
-        /> */}
+        />
 
         <div className="absolute top-5 right-2">
           <BadgePill label="Keto" />
@@ -25,10 +25,10 @@ export default function HeroVisual() {
 
       {/* Floating images */}
 
-      <img
+      {/* <img
         src="/food1.jpeg"
         className="absolute -bottom-10 left-5 w-20 h-20 rounded-full shadow-lg"
-      />
+      /> */}
 
       {/* <img
         src="/snack.jpg"

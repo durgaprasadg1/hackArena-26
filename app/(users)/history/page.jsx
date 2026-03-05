@@ -1,9 +1,19 @@
-import React from 'react'
+"use client";
 
-const page = () => {
+import {DataTable} from "../../components/History/Table";
+import { columns } from "../../components/History/Columns";
+import { data } from "../../components/History/data";
+
+export default function HistoryPage() {
   return (
-    <div>page</div>
-  )
-}
+    <div className="max-w-6xl mx-auto py-10 px-4">
 
-export default page
+      <h1 className="text-2xl font-semibold mb-6">
+        Nutrition History
+      </h1>
+
+      <DataTable columns={columns} data={data} />
+
+    </div>
+  );
+}

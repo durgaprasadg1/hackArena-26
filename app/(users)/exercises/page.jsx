@@ -1,7 +1,6 @@
-import React from 'react';
+"use client"
 import { Dumbbell, Plus, Trash2, Zap, Timer, Activity } from 'lucide-react';
-import { motion } from 'motion/react';
-
+import { motion } from "framer-motion";
 const Exercise = () => {
   const todayWorkouts = [
     { id: 1, name: 'Barbell Squats', sets: 4, reps: 12, kcal: 180, icon: Dumbbell, color: 'text-emerald-500', bg: 'bg-emerald-50' },
