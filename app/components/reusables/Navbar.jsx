@@ -1,34 +1,47 @@
-"use client"
+import React from 'react';
+import { Bell } from 'lucide-react';
 
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-
-export default function Navbar() {
+const Navbar = () => {
   return (
-    <header className="w-full border-b bg-white/70 backdrop-blur sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto flex items-center justify-between px-5 py-3">
-
-        {/* Logo */}
-        <div className="flex items-center gap-2 font-semibold text-lg">
-          🥗 <span>NutriSyncAI</span>
-        </div>
-
-        {/* Desktop Links */}
-        <nav className="hidden md:flex gap-8 text-sm text-gray-600">
-          <Link href="/">Home</Link>
-          <Link href="/">Features</Link>
-          <Link href="/">Pricing</Link>
-        </nav>
-
-        {/* Buttons */}
-        <div className="flex gap-3">
-          <Button variant="ghost">Login</Button>
-
-          <Button className="bg-green-600 hover:bg-green-700 text-white rounded-full">
-            Get Started
-          </Button>
+    <nav className="bg-white border-b border-gray-100 sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between h-16 items-center">
+          <div className="flex items-center gap-8">
+            <div className="flex-shrink-0 flex items-center">
+              <span className="text-xl font-bold text-[#556B2F]">NutriSync AI</span>
+            </div>
+            <div className="hidden sm:flex sm:space-x-8">
+              <a href="#" className="border-[#556B2F] text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                Dashboard
+              </a>
+              <a href="#" className="border-transparent text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                Meal Log
+              </a>
+              <a href="#" className="border-transparent text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                Exercise
+              </a>
+              <a href="#" className="border-transparent text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                History
+              </a>
+            </div>
+          </div>
+          <div className="flex items-center gap-4">
+            <button className="p-2 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none">
+              <Bell className="w-5 h-5" />
+            </button>
+            <div className="flex-shrink-0">
+              <img
+                className="h-8 w-8 rounded-full object-cover ring-2 ring-gray-100"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGQF3fxXOFITCZEzciPLdcKfqzJ_IWt4-HYDWyC-2E-A3Ws_VJLkUHFTADPLnlKb0EPCQtBFvvi_MQGQDexbEteTarqj_omxjpx1MPoXTRq6D1UHmZS8kmRdYpOAns3oysMoR57QYTOfOsd79gvRzRLS11DzvaVh4YUhYjWgnMOEaAPLHlzJgTuAWDGNFs3xkAwMb_BjnydGDU-a3oWDdwqRfTf4wN2ltkm6pvjeMi3A-EQ-cTvwV0YOPmYyx8hJ8XGIw3nQFqEc8"
+                alt="User avatar"
+                referrerPolicy="no-referrer"
+              />
+            </div>
+          </div>
         </div>
       </div>
-    </header>
-  )
-}
+    </nav>
+  );
+};
+
+export default Navbar;
