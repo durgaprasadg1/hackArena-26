@@ -1,13 +1,12 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export default function Navbar() {
   return (
     <header className="w-full border-b bg-white/70 backdrop-blur sticky top-0 z-50">
       <div className="max-w-7xl mx-auto flex items-center justify-between px-5 py-3">
-
         {/* Logo */}
         <div className="flex items-center gap-2 font-semibold text-lg">
           🥗 <span>NutriSyncAI</span>
@@ -30,5 +29,5 @@ export default function Navbar() {
         </div>
       </div>
     </header>
-  )
+  );
 }

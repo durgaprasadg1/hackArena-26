@@ -49,11 +49,11 @@ export default function HeroSection() {
 
         <div className="flex items-center gap-3 text-sm text-gray-500 pt-4">
 
-          <div className="flex -space-x-2">
+          {/* <div className="flex -space-x-2">
             <img className="w-7 h-7 rounded-full border" src="/user1.jpg" />
             <img className="w-7 h-7 rounded-full border" src="/user2.jpg" />
             <img className="w-7 h-7 rounded-full border" src="/user3.jpg" />
-          </div>
+          </div> */}
 
           <span>10k+ active users</span>
 
