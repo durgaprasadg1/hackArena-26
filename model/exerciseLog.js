@@ -18,11 +18,24 @@ const ExerciseLogSchema = new mongoose.Schema(
       ref: "Exercise",
     },
 
+    exerciseName: {
+      type: String,
+    },
+
+    exerciseType: {
+      type: String,
+    },
+
     sets: Number,
 
     durationMinutes: Number,
 
     caloriesBurned: Number,
+
+    notes: {
+      type: String,
+      default: "",
+    },
   },
   { timestamps: true },
 );

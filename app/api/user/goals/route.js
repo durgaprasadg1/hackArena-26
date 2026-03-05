@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
-import { getCurrentUser } from "@/lib/auth.js";
-import { connectDB } from "@/lib/connectDB.js";
+import { getCurrentUser } from "@/lib/auth";
+import { connectDB } from "@/lib/connectDB";
 import {
   calculateTDEE,
   calculateCalorieTarget,
-} from "@/lib/healthCalculations.js";
+} from "@/lib/healthCalculations";
 
 // PATCH /api/user/goals - Update user goals
 export async function PATCH(req) {

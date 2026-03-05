@@ -1,12 +1,12 @@
 import { NextResponse } from "next/server";
-import { getCurrentUser } from "@/lib/auth.js";
-import { connectDB } from "../../../../lib/connectDB.js";
-import User from "@/model/user.js";
+import { getCurrentUser } from "@/lib/auth";
+import { connectDB } from "@/lib/connectDB";
+import User from "@/model/user";
 import {
   calculateBMI,
   calculateBMR,
   calculateAge,
-} from "@/lib/healthCalculations.js";
+} from "@/lib/healthCalculations";
 
 export async function GET() {
   try {

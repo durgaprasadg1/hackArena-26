@@ -1,17 +1,25 @@
 import React from "react";
 
-const MacroCard = ({ label, value, target, unit, color, isCalories }) => {
-  // Calculate progress percentage
+const MacroCard = ({
+  label,
+  value,
+  target,
+  unit,
+  color,
+  isCalories,
+  consumed,
+  burned,
+}) => {
+  // For calories: value = net (consumed - burned), progress against target
   const progress = target > 0 ? Math.min(100, (value / target) * 100) : 0;
 
-  // Format numbers with commas
-  const formatNumber = (num) => {
-    return Math.round(num).toLocaleString();
-  };
+  const formatNumber = (num) => Math.round(num).toLocaleString();
 
   return (
     <div
-      className={`bg-white rounded-xl p-6 shadow-sm border border-gray-100 flex flex-col items-center justify-center relative overflow-hidden ${isCalories ? "ring-2 ring-[#556B2F] ring-offset-0" : ""}`}
+      className={`bg-white rounded-xl p-6 shadow-sm border border-gray-100 flex flex-col items-center justify-center relative overflow-hidden ${
+        isCalories ? "ring-2 ring-[#556B2F] ring-offset-0" : ""
+      }`}
     >
       <span className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">
         {label}
@@ -28,6 +36,17 @@ const MacroCard = ({ label, value, target, unit, color, isCalories }) => {
         <span className="text-[10px] text-gray-400 mt-1">
           / {formatNumber(target)} {unit}
         </span>
+      )}
+
+      {isCalories && (consumed > 0 || burned > 0) && (
+        <div className="flex gap-3 mt-2">
+          <span className="text-[10px] text-gray-400">
+            ↑ {formatNumber(consumed)} in
+          </span>
+          <span className="text-[10px] text-emerald-500">
+            ↓ {formatNumber(burned)} burned
+          </span>
+        </div>
       )}
 
       {!isCalories && (

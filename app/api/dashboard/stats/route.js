@@ -3,6 +3,7 @@ import { auth } from "@clerk/nextjs/server";
 import { connectDB } from "@/lib/connectDB";
 import User from "@/model/user";
 import MealLog from "@/model/meallog";
+import Food from "@/model/food";
 import ExerciseLog from "@/model/exerciseLog";
 import WaterLog from "@/model/waterLog";
 import SleepLog from "@/model/sleepLog";
@@ -152,8 +153,13 @@ export async function GET(req) {
     });
   } catch (error) {
     console.error("Error fetching dashboard stats:", error);
+    console.error("Error stack:", error.stack);
     return NextResponse.json(
-      { error: "Internal server error", details: error.message },
+      {
+        error: "Internal server error",
+        details: error.message,
+        stack: process.env.NODE_ENV === "development" ? error.stack : undefined,
+      },
       { status: 500 },
     );
   }

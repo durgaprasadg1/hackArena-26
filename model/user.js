@@ -161,7 +161,6 @@ const UserSchema = new mongoose.Schema(
 
 // Indexes to speed role and profile lookups
 UserSchema.index({ role: 1 });
-UserSchema.index({ clerkId: 1 });
 UserSchema.index({ onboarded: 1 });
 UserSchema.index({ lastActive: -1 });
 

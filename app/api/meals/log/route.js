@@ -1,13 +1,9 @@
 import { NextResponse } from "next/server";
-import { connectDB } from "../../../../lib/connectDB";
+import { connectDB } from "@/lib/connectDB";
 import MealLog from "@/model/meallog";
 import Food from "@/model/food";
 import { getCurrentUser } from "@/lib/auth";
 
-/**
- * GET /api/meals/log
- * Get meal logs for a specific date
- */
 export async function GET(request) {
   try {
     const user = await getCurrentUser();

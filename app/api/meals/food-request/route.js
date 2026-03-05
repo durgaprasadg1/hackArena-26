@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { connectDB } from "../../../../lib/connectDB";
+import { connectDB } from "@/lib/connectDB";
 import Food from "@/model/food";
 import User from "@/model/user";
 import { getCurrentUser } from "@/lib/auth";

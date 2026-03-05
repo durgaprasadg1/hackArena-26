@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { getCurrentUser } from "@/lib/auth.js";
-import { connectDB } from "@/lib/connectDB.js";
+import { getCurrentUser } from "@/lib/auth";
+import { connectDB } from "@/lib/connectDB";
 import {
   calculateBMI,
   calculateBMR,
@@ -9,7 +9,7 @@ import {
   calculateWaterIntake,
   calculateAge,
   validateHealthMetrics,
-} from "@/lib/healthCalculations.js";
+} from "@/lib/healthCalculations";
 
 // POST /api/user/onboarding - Complete user onboarding
 export async function POST(req) {

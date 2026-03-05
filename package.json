@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "seed:exercises": "node --experimental-vm-modules scripts/seedExercises.js"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.14.3",

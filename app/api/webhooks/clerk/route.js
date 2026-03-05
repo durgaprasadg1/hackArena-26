@@ -1,7 +1,7 @@
 import { Webhook } from "svix";
 import { headers } from "next/headers";
-import { connectDB } from "@/lib/connectDB.js";
-import User from "@/model/user.js";
+import { connectDB } from "@/lib/connectDB";
+import User from "@/model/user";
 
 export async function POST(req) {
   // Get the headers

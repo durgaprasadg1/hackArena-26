@@ -109,8 +109,4 @@ export {
   TableRow,
   TableCell,
   TableCaption,
-<<<<<<< HEAD:components/ui/table.tsx
 };
-=======
-};
->>>>>>> 53d67cd714cf9bc588b89919cfa73ea238136e25:components/ui/table.jsx

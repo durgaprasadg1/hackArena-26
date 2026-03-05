@@ -21,7 +21,7 @@ const Dashboard = () => {
     try {
       const res = await fetch("/api/dashboard/stats");
       if (!res.ok) {
-        console.error("Dashboard stats API error:", res.status);
+        console.log("Dashboard stats API error:", res.status);
         return;
       }
       const contentType = res.headers.get("content-type");
@@ -29,10 +29,10 @@ const Dashboard = () => {
         const data = await res.json();
         setDashboardData(data);
       } else {
-        console.error("Expected JSON but got:", contentType);
+        console.log("Expected JSON but got:", contentType);
       }
     } catch (error) {
-      console.error("Error fetching dashboard data:", error);
+      console.log("Error fetching dashboard data:", error);
     } finally {
       setLoading(false);
     }
@@ -88,11 +88,17 @@ const Dashboard = () => {
               className="grid grid-cols-2 md:grid-cols-4 gap-4"
             >
               <MacroCard
-                label="Calories"
-                value={dashboardData?.macros?.calories?.consumed || 0}
+                label="Net Calories"
+                value={Math.max(
+                  0,
+                  (dashboardData?.macros?.calories?.consumed || 0) -
+                    (dashboardData?.macros?.calories?.burned || 0),
+                )}
                 target={dashboardData?.macros?.calories?.target || 2000}
                 unit="kcal"
                 isCalories={true}
+                consumed={dashboardData?.macros?.calories?.consumed || 0}
+                burned={dashboardData?.macros?.calories?.burned || 0}
               />
 
               <MacroCard
