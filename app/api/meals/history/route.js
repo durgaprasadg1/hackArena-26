@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/connectDB";
 import MealLog from "@/model/meallog";
+import CalorieAdjustment from "@/model/calorieAdjustment";
 import { getCurrentUser } from "@/lib/auth";
+import { computeAndSaveAdjustment } from "@/services/ExtraCalDistIn3Days";
 
 /**
  * GET /api/meals/history
@@ -90,10 +92,59 @@ export async function GET(request) {
     // Sort by date descending
     history.sort((a, b) => new Date(b.dateObj) - new Date(a.dateObj));
 
+    // Determine today's date key so we skip today (day not yet complete)
+    const todayKey = new Date().toISOString().split("T")[0];
+
+    // Fetch existing CalorieAdjustment records for this user in the range
+    const startDateAdj = new Date(startDate);
+    const existingAdjustments = await CalorieAdjustment.find({
+      userId: user._id,
+      referenceDate: { $gte: startDateAdj, $lte: new Date() },
+    }).lean();
+
+    const adjustmentByDateKey = {};
+    existingAdjustments.forEach((a) => {
+      const key = new Date(a.referenceDate).toISOString().split("T")[0];
+      adjustmentByDateKey[key] = a;
+    });
+
+    // For each past day without an adjustment record, lazily create one.
+    // Also enrich each history entry with its adjustment data.
+    const MIN_THRESHOLD = 50;
+    const enrichedHistory = [];
+
+    for (const entry of history) {
+      const key = new Date(entry.dateObj).toISOString().split("T")[0];
+      const isToday = key === todayKey;
+
+      let adjustment = adjustmentByDateKey[key] || null;
+
+      if (!isToday && !adjustment) {
+        try {
+          adjustment = await computeAndSaveAdjustment({
+            userId: user._id,
+            date: entry.dateObj,
+            consumed: entry.intake,
+            expected: entry.expected,
+          });
+        } catch {
+          // Don't fail the main request if adjustment saving fails
+        }
+      }
+
+      const diff = entry.intake - entry.expected;
+      enrichedHistory.push({
+        ...entry,
+        diff,
+        adjustmentPerDay: adjustment?.adjustmentPerDay ?? null,
+        balanced: Math.abs(diff) < MIN_THRESHOLD,
+      });
+    }
+
     return NextResponse.json({
       success: true,
-      history,
-      count: history.length,
+      history: enrichedHistory,
+      count: enrichedHistory.length,
     });
   } catch (error) {
     console.error("Get meal history error:", error);

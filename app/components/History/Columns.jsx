@@ -1,7 +1,13 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Sparkles, FileText } from "lucide-react";
+import {
+  Sparkles,
+  FileText,
+  TrendingDown,
+  TrendingUp,
+  CheckCircle2,
+} from "lucide-react";
 
 export function createColumns({ onGetSummary, onGenerateReport }) {
   return [
@@ -17,18 +23,62 @@ export function createColumns({ onGetSummary, onGenerateReport }) {
       accessorKey: "calories",
       header: "Calories (Intake / Expected)",
       cell: ({ row }) => {
-        const intake = row.original.intake;
-        const expected = row.original.expected;
+        const { intake, expected, diff, adjustmentPerDay, balanced } =
+          row.original;
 
-        let color = "bg-emerald-100 text-emerald-700";
-        if (intake > expected) color = "bg-red-100 text-red-700";
-        else if (intake < expected) color = "bg-blue-100 text-blue-700";
+        // Badge colour
+        let badgeColor = "bg-emerald-100 text-emerald-700";
+        if (intake > expected) badgeColor = "bg-amber-100 text-amber-700";
+        else if (intake < expected) badgeColor = "bg-blue-100 text-blue-700";
+
+        // Balance sub-line
+        let balanceLine = null;
+        if (balanced) {
+          balanceLine = (
+            <span className="flex items-center gap-1 text-emerald-600">
+              <CheckCircle2 className="w-3 h-3" />
+              On track
+            </span>
+          );
+        } else if (diff > 0 && adjustmentPerDay !== null) {
+          balanceLine = (
+            <span className="flex items-center gap-1 text-amber-600">
+              <TrendingDown className="w-3 h-3" />+{diff} kcal → &minus;
+              {Math.abs(adjustmentPerDay)} kcal/day × 3
+            </span>
+          );
+        } else if (diff < 0 && adjustmentPerDay !== null) {
+          balanceLine = (
+            <span className="flex items-center gap-1 text-blue-600">
+              <TrendingUp className="w-3 h-3" />
+              {diff} kcal → +{Math.abs(adjustmentPerDay)} kcal/day × 3
+            </span>
+          );
+        } else if (diff > 0) {
+          balanceLine = (
+            <span className="flex items-center gap-1 text-amber-500">
+              <TrendingDown className="w-3 h-3" />+{diff} kcal over
+            </span>
+          );
+        } else if (diff < 0) {
+          balanceLine = (
+            <span className="flex items-center gap-1 text-blue-500">
+              <TrendingUp className="w-3 h-3" />
+              {diff} kcal under
+            </span>
+          );
+        }
 
         return (
-          <div
-            className={`px-3 py-1 rounded-full text-sm font-medium inline-block ${color}`}
-          >
-            {intake} / {expected}
+          <div className="flex flex-col gap-1">
+            <div
+              className={`px-3 py-1 rounded-full text-sm font-medium inline-block ${badgeColor}`}
+            >
+              {intake} / {expected} kcal
+            </div>
+            {balanceLine && (
+              <span className="text-xs font-medium pl-1">{balanceLine}</span>
+            )}
           </div>
         );
       },

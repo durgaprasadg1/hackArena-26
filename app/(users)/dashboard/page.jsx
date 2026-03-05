@@ -6,6 +6,7 @@ import QuickLog from "../../components/Dashboard/QuickLog";
 import ActivityTimeline from "../../components/Dashboard/ActivityTimeline";
 import AIInsights from "../../components/Dashboard/AIInsights";
 import SuggestedMeal from "../../components/Dashboard/SuggestedMeal";
+import CalorieBalanceCard from "../../components/Dashboard/CalorieBalanceCard";
 import { motion } from "framer-motion";
 
 const Dashboard = () => {
@@ -147,6 +148,14 @@ const Dashboard = () => {
 
           {/* Sidebar */}
           <div className="lg:col-span-4 space-y-8">
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.35 }}
+            >
+              <CalorieBalanceCard />
+            </motion.div>
+
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
