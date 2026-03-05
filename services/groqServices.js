@@ -185,3 +185,157 @@ STRICT RESPONSE RULES:
 
   return response.choices[0].message.content;
 }
+
+// ─── Daily Summary (Meal + Exercise combined) ─────────────────────────────────
+
+export async function generateDailySummary(userData, dailyData) {
+  const {
+    name,
+    age,
+    gender,
+    weightKg,
+    heightCm,
+    activityLevel,
+    goalType,
+    targetWeight,
+    dailyCalorieTarget,
+    dietaryRestrictions,
+    healthConditions,
+  } = userData;
+
+  const { meals, mealTotals, exerciseLogs, exerciseTotals, dateLabel } =
+    dailyData;
+
+  const goalMap = {
+    lose_weight: "Lose Weight",
+    gain_weight: "Gain Weight / Bulk",
+    maintain: "Maintain Current Weight",
+    build_muscle: "Build Muscle & Recomposition",
+  };
+
+  const activityMap = {
+    sedentary: "Sedentary (little or no exercise)",
+    light: "Lightly Active (1-3 days/week)",
+    moderate: "Moderately Active (3-5 days/week)",
+    active: "Very Active (6-7 days/week)",
+  };
+
+  // Build meal breakdown text
+  const mealLines = [];
+  for (const [mealType, entries] of Object.entries(meals)) {
+    if (entries && entries.length > 0) {
+      mealLines.push(`\n${mealType.toUpperCase()}:`);
+      entries.forEach((entry) => {
+        const cal = Math.round(entry.nutritionConsumed?.calories || 0);
+        const pro = Math.round(entry.nutritionConsumed?.protein || 0);
+        const carb = Math.round(entry.nutritionConsumed?.carbs || 0);
+        const fat = Math.round(entry.nutritionConsumed?.fat || 0);
+        const qty = entry.quantity || 1;
+        const unit = entry.servingSize?.unit || "serving";
+        mealLines.push(
+          `  - ${entry.foodName} (${qty} ${unit}): ${cal} kcal | ${pro}g protein | ${carb}g carbs | ${fat}g fat`,
+        );
+      });
+    }
+  }
+  const mealBreakdown =
+    mealLines.length > 0
+      ? mealLines.join("\n")
+      : "  No meals logged for this day.";
+
+  // Build exercise breakdown text
+  const exerciseLines = [];
+  if (exerciseLogs && exerciseLogs.length > 0) {
+    exerciseLogs.forEach((log) => {
+      const exName = log.exerciseName || log.exerciseId?.name || "Exercise";
+      const dur = log.durationMinutes ? `${log.durationMinutes} min` : "";
+      const sets = log.sets ? `${log.sets} sets` : "";
+      const cal = Math.round(log.caloriesBurned || 0);
+      const details = [dur, sets].filter(Boolean).join(", ");
+      exerciseLines.push(
+        `  - ${exName}${details ? ` (${details})` : ""}: ${cal} kcal burned`,
+      );
+    });
+  }
+  const exerciseBreakdown =
+    exerciseLines.length > 0
+      ? exerciseLines.join("\n")
+      : "  No exercise logged for this day.";
+
+  const netCalories =
+    Math.round(mealTotals.calories) - Math.round(exerciseTotals.caloriesBurned);
+
+  const restrictions = dietaryRestrictions?.length
+    ? dietaryRestrictions.join(", ")
+    : "None";
+  const conditions = healthConditions?.length
+    ? healthConditions.join(", ")
+    : "None";
+
+  const context = `
+USER PROFILE:
+  Name: ${name || "User"}
+  Age: ${age ? age + " years" : "Not specified"}
+  Gender: ${gender || "Not specified"}
+  Weight: ${weightKg ? weightKg + " kg" : "Not specified"}
+  Height: ${heightCm ? heightCm + " cm" : "Not specified"}
+  Activity Level: ${activityMap[activityLevel] || activityLevel || "Not specified"}
+  Primary Goal: ${goalMap[goalType] || goalType || "Not specified"}
+  Target Weight: ${targetWeight ? targetWeight + " kg" : "Not specified"}
+  Daily Calorie Target: ${dailyCalorieTarget ? dailyCalorieTarget + " kcal" : "Not specified"}
+  Dietary Restrictions: ${restrictions}
+  Health Conditions: ${conditions}
+
+MEAL LOG (${dateLabel}):${mealBreakdown}
+
+NUTRITIONAL TOTALS FROM MEALS:
+  Total Calories Consumed: ${Math.round(mealTotals.calories)} kcal ${dailyCalorieTarget ? `(Goal: ${dailyCalorieTarget} kcal | ${Math.round((mealTotals.calories / dailyCalorieTarget) * 100)}% of target)` : ""}
+  Protein:        ${Math.round(mealTotals.protein)} g
+  Carbohydrates:  ${Math.round(mealTotals.carbs)} g
+  Fat:            ${Math.round(mealTotals.fat)} g
+  Fiber:          ${Math.round(mealTotals.fiber)} g
+  Sugar:          ${Math.round(mealTotals.sugar)} g
+
+EXERCISE LOG (${dateLabel}):
+${exerciseBreakdown}
+
+EXERCISE TOTALS:
+  Total Calories Burned: ${Math.round(exerciseTotals.caloriesBurned)} kcal
+  Total Duration:        ${Math.round(exerciseTotals.durationMinutes)} minutes
+  Number of Exercises:   ${exerciseTotals.exerciseCount}
+
+NET BALANCE:
+  Net Calories (Intake − Burned): ${netCalories} kcal ${dailyCalorieTarget ? `(vs goal of ${dailyCalorieTarget} kcal)` : ""}
+`;
+
+  const systemPrompt = `You are NutriSync AI — an elite health coach combining the expertise of a clinical nutritionist, certified personal trainer, and metabolic health specialist. You analyse a user's complete daily health log — including all meals consumed and all exercises performed — to deliver an insightful, personalised DAILY HEALTH SUMMARY.
+
+STRICT RESPONSE RULES:
+1. Write in clean, readable plain text. NO markdown symbols (**, ##, *, -). Use CAPS for section headers followed by a colon.
+2. Be hyper-SPECIFIC — reference actual food names, exercise names, exact calorie figures and durations from the data.
+3. Be PERSONALIZED — every sentence must feel written for this exact person with their exact goal.
+4. Be HONEST and ENCOURAGING — diplomatically highlight gaps, celebrate real wins.
+5. Structure your response with EXACTLY these 6 sections:
+   - OVERVIEW: 2-3 sentences summarising the overall day — calorie balance, activity level, general impression.
+   - NUTRITION ANALYSIS: Analyse the meal data — calorie intake vs goal, macro balance, meal timing and food quality.
+   - FITNESS ANALYSIS: Assess the exercise data — what was done, calories burned, how it contributed to their goal.
+   - NET CALORIE BALANCE: Explain the net calorie position (intake minus burned) and what it means for their goal (${goalMap[goalType] || "health improvement"}).
+   - HIGHLIGHTS & AREAS TO IMPROVE: 2 positives and 2 areas to work on, each grounded in actual numbers.
+   - TOMORROW'S FOCUS: 2-3 actionable, specific recommendations for the following day.
+6. End with ONE brief motivating sentence.
+7. Keep total response under 450 words. Be dense with insight, not filler.`;
+
+  const userPrompt = `Generate a comprehensive daily health summary for the following data:\n${context}`;
+
+  const response = await groq.chat.completions.create({
+    model: "llama-3.3-70b-versatile",
+    messages: [
+      { role: "system", content: systemPrompt },
+      { role: "user", content: userPrompt },
+    ],
+    temperature: 0.65,
+    max_tokens: 800,
+  });
+
+  return response.choices[0].message.content;
+}

@@ -52,7 +52,7 @@ const Dashboard = () => {
       <div className="min-h-screen font-sans text-gray-900 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#10B981] mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading your dashboard...</p>
+          <p className="mt-4 text-gray-600"></p>
         </div>
       </div>
     );

@@ -58,8 +58,8 @@ const Navbar = () => {
                 {navItem("/dashboard", "Dashboard")}
                 {navItem("/meals", "Meal")}
                 {navItem("/exercises", "Exercise")}
-                {navItem("/community", "Community")}
                 {navItem("/history", "History")}
+                {navItem("/community", "Community")}
               </div>
             )}
           </div>

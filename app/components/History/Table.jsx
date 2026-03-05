@@ -19,11 +19,16 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { createColumns } from "./Columns";
+
 /* eslint-disable react/jsx-no-useless-fragment */
-export function DataTable({ columns, data }) {
+export function DataTable({ data, onGetSummary, onGenerateReport }) {
   const [globalFilter, setGlobalFilter] = useState("");
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
   const [sorting, setSorting] = useState([]);
+
+  const columns = createColumns({ onGetSummary, onGenerateReport });
+
   const table = useReactTable({
     data,
     columns,
@@ -44,14 +49,14 @@ export function DataTable({ columns, data }) {
             placeholder="Search..."
             value={globalFilter}
             onChange={(e) => setGlobalFilter(e.target.value)}
-            className="w-full"
+            className="w-full border-emerald-200 focus-visible:ring-emerald-400"
           />
         </div>
         <div className="flex items-center gap-2">
           <label className="text-sm text-muted-foreground">Rows</label>
           <select
             aria-label="Rows per page"
-            className="h-8 rounded border border-input bg-background px-2 text-sm text-black"
+            className="h-8 rounded border border-emerald-200 bg-background px-2 text-sm text-gray-700"
             value={pagination.pageSize}
             onChange={(e) =>
               setPagination((p) => ({
@@ -69,13 +74,13 @@ export function DataTable({ columns, data }) {
           </select>
         </div>
       </div>
-      <div className="overflow-hidden rounded-md border">
+      <div className="overflow-hidden rounded-md border border-emerald-100">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow
                 key={headerGroup.id}
-                className="bg-gray-700 hover:bg-gray-600"
+                className="bg-emerald-700 hover:bg-emerald-600"
               >
                 {headerGroup.headers.map((header) => {
                   const canSort = header.column.getCanSort();
@@ -118,6 +123,7 @@ export function DataTable({ columns, data }) {
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
+                  className="hover:bg-emerald-50 transition-colors"
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
@@ -133,7 +139,7 @@ export function DataTable({ columns, data }) {
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
-                  className="h-24 text-center"
+                  className="h-24 text-center text-gray-400"
                 >
                   No results.
                 </TableCell>
@@ -148,7 +154,7 @@ export function DataTable({ columns, data }) {
           {table.getState().pagination.pageIndex *
             table.getState().pagination.pageSize +
             1}
-          {" - "}
+          {" – "}
           {Math.min(
             (table.getState().pagination.pageIndex + 1) *
               table.getState().pagination.pageSize,
@@ -156,17 +162,17 @@ export function DataTable({ columns, data }) {
           )}{" "}
           of {table.getFilteredRowModel().rows.length}
         </div>
-        <div className="flex items-center gap-2 text-white">
+        <div className="flex items-center gap-2">
           <Button
             variant="outline"
             size="sm"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
-            className="text-black"
+            className="border-emerald-300 text-emerald-700 hover:bg-emerald-50 disabled:opacity-40"
           >
             Prev
           </Button>
-          <div className="px-3 text-sm">
+          <div className="px-3 text-sm text-gray-600">
             Page {table.getState().pagination.pageIndex + 1} of{" "}
             {table.getPageCount()}
           </div>
@@ -175,7 +181,7 @@ export function DataTable({ columns, data }) {
             size="sm"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
-            className="text-black"
+            className="border-emerald-300 text-emerald-700 hover:bg-emerald-50 disabled:opacity-40"
           >
             Next
           </Button>
