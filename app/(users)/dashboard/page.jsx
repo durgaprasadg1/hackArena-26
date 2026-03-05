@@ -8,10 +8,11 @@ import AIInsights from "../../components/Dashboard/AIInsights";
 import SuggestedMeal from "../../components/Dashboard/SuggestedMeal";
 import { motion } from "framer-motion";
 
-export default function App() {
+const Dashboard = () => {
   return (
     <div className="min-h-screen bg-[#F8FAF5] font-sans text-gray-900">
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+
         {/* Header Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -22,15 +23,18 @@ export default function App() {
           <h1 className="text-4xl font-bold text-gray-900 tracking-tight">
             Good morning, Alex!
           </h1>
+
           <p className="text-gray-500 mt-2 text-lg">
             Ready to hit your goals today? Let's make it count.
           </p>
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          {/* Main Content Column */}
+
+          {/* Main Content */}
           <div className="lg:col-span-8 space-y-8">
-            {/* Macros Grid */}
+
+            {/* Macros */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -70,7 +74,7 @@ export default function App() {
               />
             </motion.div>
 
-            {/* Quick Log Section */}
+            {/* Quick Log */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -79,7 +83,7 @@ export default function App() {
               <QuickLog />
             </motion.div>
 
-            {/* Recent Activity Section */}
+            {/* Activity Timeline */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -87,10 +91,12 @@ export default function App() {
             >
               <ActivityTimeline />
             </motion.div>
+
           </div>
 
-          {/* Sidebar Column */}
+          {/* Sidebar */}
           <div className="lg:col-span-4 space-y-8">
+
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -106,9 +112,14 @@ export default function App() {
             >
               <SuggestedMeal />
             </motion.div>
+
           </div>
+
         </div>
+
       </main>
     </div>
   );
-}
+};
+
+export default Dashboard;
