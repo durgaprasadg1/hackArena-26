@@ -55,7 +55,7 @@ export async function PATCH(req) {
     }
 
     const body = await req.json();
-    const { profile, preferences, roleType } = body;
+    const { profile, preferences, roleType, lifestyle } = body;
 
     await connectDB();
 
@@ -112,6 +112,15 @@ export async function PATCH(req) {
           ...preferences.notificationSettings,
         };
       }
+    }
+
+    // Update lifestyle
+    if (lifestyle) {
+      if (!user.lifestyle) user.lifestyle = {};
+      if (lifestyle.sleepHours !== undefined)
+        user.lifestyle.sleepHours = lifestyle.sleepHours;
+      if (lifestyle.waterIntakeLiters !== undefined)
+        user.lifestyle.waterIntakeLiters = lifestyle.waterIntakeLiters;
     }
 
     await user.save();

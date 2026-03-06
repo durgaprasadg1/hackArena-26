@@ -18,7 +18,7 @@ const QuickLog = () => {
     try {
       const res = await fetch("/api/water");
       if (!res.ok) {
-        console.error("Water API error:", res.status);
+        console.log("Water API error:", res.status);
         return;
       }
       const contentType = res.headers.get("content-type");
@@ -27,7 +27,8 @@ const QuickLog = () => {
         setWater({ amount: data.amount, target: data.target });
       }
     } catch (error) {
-      console.error("Error fetching water log:", error);
+      console.log("Error fetching water log:", error);
+      return;
     }
   };
 
@@ -35,7 +36,7 @@ const QuickLog = () => {
     try {
       const res = await fetch("/api/sleep");
       if (!res.ok) {
-        console.error("Sleep API error:", res.status);
+        console.log("Sleep API error:", res.status);
         return;
       }
       const contentType = res.headers.get("content-type");
@@ -49,7 +50,7 @@ const QuickLog = () => {
         }
       }
     } catch (error) {
-      console.error("Error fetching sleep log:", error);
+      console.log("Error fetching sleep log:", error);
     }
   };
 
@@ -62,7 +63,7 @@ const QuickLog = () => {
         body: JSON.stringify({ amount: 0.25 }), // 250ml = 1 glass
       });
       if (!res.ok) {
-        console.error("Water API error:", res.status);
+        console.log("Water API error:", res.status);
         return;
       }
       const contentType = res.headers.get("content-type");
@@ -71,7 +72,7 @@ const QuickLog = () => {
         setWater({ amount: data.amount, target: data.target });
       }
     } catch (error) {
-      console.error("Error adding water:", error);
+      console.log("Error adding water:", error);
     } finally {
       setLoading(false);
     }
@@ -87,7 +88,7 @@ const QuickLog = () => {
         body: JSON.stringify({ amount: 0.25 }),
       });
       if (!res.ok) {
-        console.error("Water API error:", res.status);
+        console.log("Water API error:", res.status);
         return;
       }
       const contentType = res.headers.get("content-type");
@@ -96,7 +97,7 @@ const QuickLog = () => {
         setWater({ amount: data.amount, target: data.target });
       }
     } catch (error) {
-      console.error("Error removing water:", error);
+      console.log("Error removing water:", error);
     } finally {
       setLoading(false);
     }
@@ -112,7 +113,7 @@ const QuickLog = () => {
         body: JSON.stringify({ hours: totalHours }),
       });
       if (!res.ok) {
-        console.error("Sleep API error:", res.status);
+        console.log("Sleep API error:", res.status);
         return;
       }
       const contentType = res.headers.get("content-type");
@@ -122,7 +123,7 @@ const QuickLog = () => {
         setEditingSleep(false);
       }
     } catch (error) {
-      console.error("Error saving sleep:", error);
+      console.log("Error saving sleep:", error);
     } finally {
       setLoading(false);
     }

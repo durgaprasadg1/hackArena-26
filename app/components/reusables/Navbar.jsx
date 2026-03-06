@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Search, Bell, Settings } from "lucide-react";
+import { Search, User } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useUser, UserButton } from "@clerk/nextjs";
@@ -78,17 +78,19 @@ const Navbar = () => {
               </div>
             )}
 
-            {/* Icons - Only show when signed in */}
+            {/* Profile icon - Only show when signed in */}
             {isSignedIn && (
-              <>
-                <button className="p-2 rounded-full text-gray-400 hover:text-gray-500 hover:bg-gray-100 transition-colors">
-                  <Bell className="w-5 h-5" />
-                </button>
-
-                <button className="p-2 rounded-full text-gray-400 hover:text-gray-500 hover:bg-gray-100 transition-colors">
-                  <Settings className="w-5 h-5" />
-                </button>
-              </>
+              <Link
+                href="/profile"
+                className={`p-2 rounded-full transition-colors ${
+                  pathname === "/profile"
+                    ? "text-[#10B981] bg-[#10B981]/10"
+                    : "text-gray-400 hover:text-gray-600 hover:bg-gray-100"
+                }`}
+                title="Profile"
+              >
+                <User className="w-5 h-5" />
+              </Link>
             )}
 
             {/* Conditional rendering based on auth status */}
