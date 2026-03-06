@@ -46,7 +46,7 @@ export default function HeroVisual() {
               alt="Nutritious vegetables plate"
               width={120}
               height={120}
-              className="w-24 h-24 md:w-28 md:h-28 rounded-full shadow-lg border-4 border-white"
+              className="w-24 h-24 md:w-28 md:h-28 rounded-full shadow-lg border-4 border-white object-cover"
             />
           </div>
         </div>
