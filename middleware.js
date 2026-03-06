@@ -1,4 +1,8 @@
-import { clerkMiddleware, clerkClient, createRouteMatcher } from "@clerk/nextjs/server";
+import {
+  clerkMiddleware,
+  clerkClient,
+  createRouteMatcher,
+} from "@clerk/nextjs/server";
 
 // Define public routes that don't require authentication
 const isPublicRoute = createRouteMatcher([
@@ -9,6 +13,7 @@ const isPublicRoute = createRouteMatcher([
   "/api/auth(.*)",
   "/api/admin/create",
   "/auth-redirect",
+  "/onboarding",
 ]);
 
 // Define admin routes (only accessible by admins)
@@ -43,11 +48,15 @@ export default clerkMiddleware(async (auth, request) => {
   // Try JWT claims first; fall back to Clerk backend API when JWT template
   // is not configured to include publicMetadata (avoids needing dashboard setup)
   let userRole = sessionClaims?.metadata?.role;
-  if (!userRole) {
+  let isOnboarded = sessionClaims?.metadata?.onboarded;
+  let clerkUser;
+
+  if (!userRole || isOnboarded === undefined) {
     try {
       const clerk = await clerkClient();
-      const clerkUser = await clerk.users.getUser(userId);
-      userRole = clerkUser.publicMetadata?.role;
+      clerkUser = await clerk.users.getUser(userId);
+      userRole = userRole || clerkUser.publicMetadata?.role;
+      isOnboarded = isOnboarded ?? clerkUser.publicMetadata?.onboarded;
     } catch {
       // If Clerk API call fails, proceed without role (treated as regular user)
     }
@@ -64,6 +73,12 @@ export default clerkMiddleware(async (auth, request) => {
   if (isUserRoute(request)) {
     if (userRole === "admin") {
       return Response.redirect(new URL("/admin", request.url));
+    }
+
+    // Redirect un-onboarded users to onboarding
+    // Admins are auto-onboarded, so only check for regular users
+    if (userRole !== "admin" && !isOnboarded) {
+      return Response.redirect(new URL("/onboarding", request.url));
     }
   }
 });

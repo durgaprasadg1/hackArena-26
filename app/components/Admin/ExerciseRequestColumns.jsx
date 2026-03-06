@@ -267,11 +267,7 @@ export function getExerciseRequestColumns(onAction) {
         <div className="font-medium text-gray-800">{row.original.name}</div>
       ),
     },
-    {
-      id: "image",
-      header: "Image",
-      cell: ({ row }) => <ExerciseImageCell exercise={row.original} />,
-    },
+    
     {
       id: "calorieBurnouts",
       header: "Calorie Burnouts",

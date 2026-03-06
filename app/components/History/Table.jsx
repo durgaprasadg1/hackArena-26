@@ -22,16 +22,18 @@ import {
 import { createColumns } from "./Columns";
 
 /* eslint-disable react/jsx-no-useless-fragment */
-export function DataTable({ data, onGetSummary, onGenerateReport }) {
+export function DataTable({ data, columns, onGetSummary, onGenerateReport }) {
   const [globalFilter, setGlobalFilter] = useState("");
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
   const [sorting, setSorting] = useState([]);
 
-  const columns = createColumns({ onGetSummary, onGenerateReport });
+  // Use provided columns if available, otherwise create default History columns
+  const tableColumns =
+    columns || createColumns({ onGetSummary, onGenerateReport });
 
   const table = useReactTable({
     data,
-    columns,
+    columns: tableColumns,
     state: { globalFilter, pagination, sorting },
     onGlobalFilterChange: setGlobalFilter,
     onPaginationChange: setPagination,
@@ -138,7 +140,7 @@ export function DataTable({ data, onGetSummary, onGenerateReport }) {
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={columns.length}
+                  colSpan={tableColumns.length}
                   className="h-24 text-center text-gray-400"
                 >
                   No results.

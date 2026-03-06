@@ -21,8 +21,16 @@ export async function GET(request) {
     const { searchParams } = new URL(request.url);
     const dateStr = searchParams.get("date");
 
-    const targetDate = dateStr ? new Date(dateStr) : new Date();
-    targetDate.setHours(0, 0, 0, 0);
+    // Parse date in local timezone to match storage
+    let targetDate;
+    if (dateStr) {
+      const [year, month, day] = dateStr.split("-").map(Number);
+      targetDate = new Date(year, month - 1, day, 0, 0, 0, 0);
+    } else {
+      targetDate = new Date();
+      targetDate.setHours(0, 0, 0, 0);
+    }
+
     const nextDay = new Date(targetDate);
     nextDay.setDate(nextDay.getDate() + 1);
 
@@ -116,8 +124,15 @@ export async function POST(request) {
       caloriesPerSet: exercise.caloriesPerSet || 0,
     });
 
-    const logDate = providedDate ? new Date(providedDate) : new Date();
-    logDate.setHours(0, 0, 0, 0);
+    // Parse date in local timezone to match storage
+    let logDate;
+    if (providedDate) {
+      const [year, month, day] = providedDate.split("-").map(Number);
+      logDate = new Date(year, month - 1, day, 0, 0, 0, 0);
+    } else {
+      logDate = new Date();
+      logDate.setHours(0, 0, 0, 0);
+    }
 
     const log = await ExerciseLog.create({
       userId: user._id,

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth";
 import { connectDB } from "@/lib/connectDB";
+import { clerkClient } from "@clerk/nextjs/server";
 import {
   calculateBMI,
   calculateBMR,
@@ -123,6 +124,20 @@ export async function POST(req) {
     user.onboarded = true;
 
     await user.save();
+
+    // Update Clerk publicMetadata so middleware can check onboarded status
+    try {
+      const clerk = await clerkClient();
+      await clerk.users.updateUser(user.clerkId, {
+        publicMetadata: {
+          ...user.publicMetadata,
+          onboarded: true,
+        },
+      });
+    } catch (clerkError) {
+      console.warn("Failed to update Clerk metadata:", clerkError);
+      // Don't fail the request if Clerk update fails - user is still onboarded in our DB
+    }
 
     return NextResponse.json({
       success: true,

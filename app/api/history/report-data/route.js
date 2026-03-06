@@ -24,10 +24,11 @@ export async function GET(request) {
 
     await connectDB();
 
-    const targetDate = new Date(dateStr);
-    targetDate.setHours(0, 0, 0, 0);
-    const nextDay = new Date(targetDate);
-    nextDay.setDate(nextDay.getDate() + 1);
+    // Parse date in local timezone to match meal log storage
+    // When dateStr is "2026-03-06", we want local midnight, not UTC midnight
+    const [year, month, day] = dateStr.split("-").map(Number);
+    const targetDate = new Date(year, month - 1, day, 0, 0, 0, 0);
+    const nextDay = new Date(year, month - 1, day + 1, 0, 0, 0, 0);
 
     // Fetch meal logs
     const mealLogs = await MealLog.find({

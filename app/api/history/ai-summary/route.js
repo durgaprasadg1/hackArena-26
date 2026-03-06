@@ -35,8 +35,9 @@ export async function GET(request) {
 
     await connectDB();
 
-    const targetDate = new Date(dateStr);
-    targetDate.setHours(0, 0, 0, 0);
+    // Parse date in local timezone to match storage
+    const [year, month, day] = dateStr.split("-").map(Number);
+    const targetDate = new Date(year, month - 1, day, 0, 0, 0, 0);
     const nextDay = new Date(targetDate);
     nextDay.setDate(nextDay.getDate() + 1);
 
