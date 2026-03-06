@@ -12,8 +12,8 @@ export default function HeroVisual() {
         <Image
           src="/food2.png"
           alt="Nutritious vegetables"
-          width={400}
-          height={400}
+          width={350}
+          height={350}
           className="object-cover w-full h-full"
         />
         <div className="absolute top-5 right-2">
@@ -39,7 +39,6 @@ export default function HeroVisual() {
           </div>
         </div>
 
-        {/* Image 2 - positioned at bottom */}
         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2">
           <div className="animate-spin-reverse">
             <Image
