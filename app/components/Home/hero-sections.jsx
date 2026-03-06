@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button"
 import HeroVisual from "./HeroVisuals"
+import Link from "next/link"
 
 export default function HeroSection() {
 
@@ -11,7 +12,7 @@ export default function HeroSection() {
 
        
         <h1 className="text-4xl md:text-6xl font-bold leading-tight">
-          NutriSync <span className="text-green-700 italic">AI</span>
+          <span className="font-times-newroman">NutriSync</span> <span className="text-green-700 italic">AI</span>
         </h1>
 
         <p className="text-gray-600 text-base md:text-lg max-w-lg">
@@ -24,33 +25,21 @@ export default function HeroSection() {
         {/* Buttons */}
 
         <div className="flex gap-4 flex-wrap">
-
+        <Link href="/dashboard">
           <Button
             size="lg"
             className="bg-green-600 hover:bg-green-700 text-white rounded-full"
           >
             Start Your Journey →
           </Button>
-
-          <Button
-            variant="outline"
-            size="lg"
-            className="rounded-full"
-          >
-            Details
-          </Button>
-
+        </Link>
+          
         </div>
 
         {/* Users */}
 
         <div className="flex items-center gap-3 text-sm text-gray-500 pt-4">
 
-          {/* <div className="flex -space-x-2">
-            <img className="w-7 h-7 rounded-full border" src="/user1.jpg" />
-            <img className="w-7 h-7 rounded-full border" src="/user2.jpg" />
-            <img className="w-7 h-7 rounded-full border" src="/user3.jpg" />
-          </div> */}
 
 
         </div>
