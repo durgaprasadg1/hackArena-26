@@ -67,16 +67,7 @@ const Navbar = () => {
           {/* Right Section */}
           <div className="flex items-center gap-4">
             {/* Search - Only show when signed in */}
-            {isSignedIn && (
-              <div className="hidden lg:flex items-center bg-gray-100 rounded-full px-4 py-2 w-64">
-                <Search className="w-4 h-4 text-gray-400 mr-2" />
-                <input
-                  type="text"
-                  placeholder="Search workouts..."
-                  className="bg-transparent border-none focus:ring-0 text-sm w-full outline-none"
-                />
-              </div>
-            )}
+            
 
             {/* Profile icon - Only show when signed in */}
             {isSignedIn && (
